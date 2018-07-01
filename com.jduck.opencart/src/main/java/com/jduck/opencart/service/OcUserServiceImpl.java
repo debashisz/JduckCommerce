@@ -7,6 +7,7 @@ package com.jduck.opencart.service;
 
 import com.jduck.opencart.dao.OcUserDao;
 import com.jduck.opencart.model.OcUser;
+import com.jduck.opencart.response.OcUserResponseMessage;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
  */
 @Service("ocUserService")
 public class OcUserServiceImpl implements OcUserService {
+
     @Autowired
     OcUserDao ocUserDao;
 
@@ -35,11 +37,30 @@ public class OcUserServiceImpl implements OcUserService {
 
     @Override
     public List<OcUser> getAllUser() {
+        try {
+            return ocUserDao.getAllUser();
+        } catch (SQLException ex) {
+            Logger.getLogger(OcUserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return null;
     }
 
     @Override
     public OcUser getSingleUser(int id) {
+        try {
+            return ocUserDao.getSingleUser(id);
+        } catch (SQLException ex) {
+            Logger.getLogger(OcUserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public OcUserResponseMessage deleteUser(int userId) {
+        try {
+            return ocUserDao.deleteUser(userId);
+        } catch (SQLException ex) {
+            Logger.getLogger(OcUserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return null;
     }
 }

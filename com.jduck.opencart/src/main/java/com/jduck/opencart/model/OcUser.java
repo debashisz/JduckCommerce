@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "OcUser.findAll", query = "SELECT o FROM OcUser o"),
     @NamedQuery(name = "OcUser.findByUserId", query = "SELECT o FROM OcUser o WHERE o.userId = :userId"),
+    @NamedQuery(name = "OcUser.deleteUserId", query = "DELETE FROM OcUser o WHERE o.userId = :userId"),
     @NamedQuery(name = "OcUser.findByUserGroupId", query = "SELECT o FROM OcUser o WHERE o.userGroupId = :userGroupId"),
     @NamedQuery(name = "OcUser.findByUsername", query = "SELECT o FROM OcUser o WHERE o.username = :username"),
     @NamedQuery(name = "OcUser.findByPassword", query = "SELECT o FROM OcUser o WHERE o.password = :password"),

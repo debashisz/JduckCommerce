@@ -6,6 +6,7 @@
 package com.jduck.opencart.service;
 
 import com.jduck.opencart.model.OcUser;
+import com.jduck.opencart.response.OcUserResponseMessage;
 import java.util.List;
 
 /**
@@ -19,4 +20,6 @@ public interface OcUserService {
     public List<OcUser> getAllUser();
 
     public OcUser getSingleUser(int id);
+    public OcUserResponseMessage deleteUser(int userId);
+    
 }

@@ -6,10 +6,13 @@
 package com.jduck.opencart.dao;
 
 import com.jduck.opencart.model.OcUser;
+import com.jduck.opencart.response.OcUserResponseMessage;
 import java.sql.SQLException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -49,11 +52,50 @@ public class OcUserDaoImpl implements OcUserDao {
 
     @Override
     public List<OcUser> getAllUser() throws SQLException {
-        return null;
+        String hql = "FROM OcUser";
+        Query query = ctx.createQuery(hql);
+        List allCustomer = query.getResultList();
+        return allCustomer;
     }
 
     @Override
     public OcUser getSingleUser(int id) throws SQLException {
-        return null;
+        Query query = ctx.createNamedQuery("OcUser.findByUserId", OcUser.class);
+        query.setParameter("userId", id);
+        OcUser obj = null;
+
+        if (query.getResultList().size() > 0) {
+            obj = (OcUser) query.getSingleResult();
+            return obj;
+        } else {
+            OcUser u = new OcUser();
+            u.setUserId(-1);
+            return u;
+        }
+
     }
+
+    @Override
+    @Transactional
+    public OcUserResponseMessage deleteUser(int userId) throws SQLException {
+        OcUserResponseMessage response = new OcUserResponseMessage();
+        Query query = ctx.createNamedQuery("OcUser.findByUserId", OcUser.class);
+        query.setParameter("userId", userId);
+
+        if (query.getResultList().size() > 0) {
+            Query query2 = ctx.createNamedQuery("OcUser.deleteUserId");
+            query2.setParameter("userId", userId);
+            int k = query2.executeUpdate();
+            if (k > 0) {
+                response.setResponseMessage("Record deleted successfully - > " + Integer.toString(userId));
+            } else {
+                response.setResponseMessage("Record is not deleted - > " + Integer.toString(userId));
+            }
+        } else {
+            response.setResponseMessage("No Record is available - > " + Integer.toString(userId));
+        }
+
+        return response;
+    }
+
 }
