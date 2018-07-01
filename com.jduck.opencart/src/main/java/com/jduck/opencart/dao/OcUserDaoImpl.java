@@ -9,12 +9,10 @@ import com.jduck.opencart.model.OcUser;
 import java.sql.SQLException;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.*;
 
 /**
  *
@@ -30,7 +28,7 @@ public class OcUserDaoImpl implements OcUserDao {
     @Override
     @Transactional
     public void addUser(OcUser user) throws SQLException {
-        
+
         String sql = "INSERT INTO oc_user (user_id,user_group_id,username,password,salt,firstname,"
                 + "lastname,email,image,code,ip,status,date_added) "
                 + " VALUES (NULL, :a, :b, :c, :d, :e, :f, :g, :h, :i, :j, :k, :l)";
