@@ -63,7 +63,5 @@ public class OcUserServiceImpl implements OcUserService {
             Logger.getLogger(OcUserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-        
-        
     }
 }
