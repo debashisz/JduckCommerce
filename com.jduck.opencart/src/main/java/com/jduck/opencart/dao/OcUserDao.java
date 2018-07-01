@@ -18,10 +18,10 @@ public interface OcUserDao {
 
     public void addUser(OcUser user) throws SQLException;
 
-    public OcUserResponseMessage deleteUser(int userId) throws SQLException;
-
     public List<OcUser> getAllUser() throws SQLException;
 
     public OcUser getSingleUser(int id) throws SQLException;
+
+    public OcUserResponseMessage deleteUser(int userId) throws SQLException;
 
 }

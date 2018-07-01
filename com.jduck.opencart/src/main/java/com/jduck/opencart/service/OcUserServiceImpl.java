@@ -55,6 +55,7 @@ public class OcUserServiceImpl implements OcUserService {
         return null;
     }
 
+    @Override
     public OcUserResponseMessage deleteUser(int userId) {
         try {
             return ocUserDao.deleteUser(userId);
@@ -62,5 +63,7 @@ public class OcUserServiceImpl implements OcUserService {
             Logger.getLogger(OcUserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+        
+        
     }
 }
