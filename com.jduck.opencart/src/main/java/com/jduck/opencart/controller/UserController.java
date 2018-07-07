@@ -51,7 +51,8 @@ public class UserController {
         }
         return o;
     }
-
+   
+    
     @DeleteMapping("/delete/{id}")
     public OcUserResponseMessage deleteUser(@PathVariable("id") int id) {
 
@@ -60,13 +61,15 @@ public class UserController {
 
     @GetMapping("/AllUserAndUserType")
     public List<UserAndUserType> GetUserAndUserType() {
-        return jdbcTemplate.query("select ou.username, ou.salt,oug.name as role, oug.permission from oc_user ou inner join "
-                + " oc_user_group oug on ou.user_group_id = oug.user_group_id", (ResultSet rs, int row) -> {
+        return jdbcTemplate.query("select ou.username, ou.salt,oug.name as role,"
+                + " oug.permission ,ou.ip from oc_user ou inner join "
+                + " oc_user_group oug on ou.user_group_id = oug.user_group_id and ou.username = ?",
+                new Object[] {"debashis"}, (ResultSet rs, int row) -> {
                     UserAndUserType f = new UserAndUserType();
                     f.setUsername(rs.getString("username"));
                     f.setSalt(rs.getString(2));
                     f.setRoleType(rs.getString(3));
-                    f.setPermission(rs.getString(4));
+                    f.setPermission(rs.getString(5));
                     return f;
         });
     }
