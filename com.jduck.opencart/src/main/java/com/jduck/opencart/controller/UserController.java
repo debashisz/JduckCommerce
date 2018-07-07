@@ -5,11 +5,15 @@
  */
 package com.jduck.opencart.controller;
 
+import com.jduck.opencart.custommodel.UserAndUserType;
+import com.jduck.opencart.model.OcApi;
 import com.jduck.opencart.model.OcUser;
 import com.jduck.opencart.response.OcUserResponseMessage;
 import com.jduck.opencart.service.OcUserService;
+import java.sql.ResultSet;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -22,6 +26,9 @@ public class UserController {
 
     @Autowired
     private OcUserService ocUserService;
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     @PostMapping("/add")
     public void addUser(@RequestBody OcUser user) {
@@ -47,7 +54,21 @@ public class UserController {
 
     @DeleteMapping("/delete/{id}")
     public OcUserResponseMessage deleteUser(@PathVariable("id") int id) {
-       return ocUserService.deleteUser(id);
+
+        return ocUserService.deleteUser(id);
+    }
+
+    @GetMapping("/AllUserAndUserType")
+    public List<UserAndUserType> GetUserAndUserType() {
+        return jdbcTemplate.query("select ou.username, ou.salt,oug.name as role, oug.permission from oc_user ou inner join "
+                + " oc_user_group oug on ou.user_group_id = oug.user_group_id", (ResultSet rs, int row) -> {
+                    UserAndUserType f = new UserAndUserType();
+                    f.setUsername(rs.getString("username"));
+                    f.setSalt(rs.getString(2));
+                    f.setRoleType(rs.getString(3));
+                    f.setPermission(rs.getString(4));
+                    return f;
+        });
     }
 
 }
